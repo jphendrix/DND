@@ -2,7 +2,7 @@ let db = {};
 
 
 $(function(){
-    $.getJSON( `data/db.json`, function( data ) {
+    $.getJSON( `js/db.json`, function( data ) {
         db = data;
       
         for(let key in db){
