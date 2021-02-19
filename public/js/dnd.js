@@ -124,25 +124,27 @@ function getRandomItem(category){
         }
     }
     
-    //Get a random number between 0 and the number of categories (minus one b/c the fist element is at index zero)
-    let random_category_index = getRandomNumber(category.length-1)
+    //Get a random number between 0 and the number of categories
+    let random_category_index = getRandomNumber(category.length)
     
     //Select a random category table from the list
-    let random_category = category[random_category_index].table;
+    let random_category = category[random_category_index];
+    
+    let random_table = dnd_data[random_category].table;
     
     //select a random number between 0 and the number of items in the category
-    let randome_item_index = getRandomNumber(random_category.rows.length-1);
+    let randome_item_index = getRandomNumber(random_table.rows.length);
     
     //select a random item
-    let random_item = random_category.rows[randome_item_index];
+    let random_item = random_table.rows[randome_item_index];
     
     //This is just for debugging.  It is helpful to see what the program is doing but this should be removed before "going live"
-    console.log(`We selected ${JSON.stringify(random_item)} at random from ${random_category}`);
+    //console.log(`We selected ${JSON.stringify(random_item)} at random from ${random_category}`);
     
     //build object for retury (merge column headers and values into a single object)
     let result={}
-    for(let i=0; i<random_category.columns.length; i++){
-        o[random_category.columns[i]] = random_item[i];  
+    for(let i=0; i<random_table.columns.length; i++){
+        result[random_table.columns[i]] = random_item[i];  
     }
     
     return result;
