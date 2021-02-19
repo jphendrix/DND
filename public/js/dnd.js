@@ -31,7 +31,7 @@ $(function(){
         //Create an event listener.  Anytime the user selects
         //a category in the dropdown, the function `parseCategory` will
         //be called with the selected category passed as an argument.
-        $("select[name=category]").on("change",function(e,d){
+        $("select[name=category]").on("change",function(e){
             
             //Get the category selected by the user
             let category = $("select[name=category]").val();
@@ -39,6 +39,13 @@ $(function(){
             //Show the user all of the items for the selected category
             parseCatgory(category);
         })
+        
+        //Create an event listner for a button.  When the user clicks the
+        //button, your function will execute.
+        //Hint: <button name=MyButtonThatNeedsAGoodName>Click Me!</button>
+        $("button[name=MyButtonThatNeedsAGoodName]").on("click",function(e){
+            doSomething();
+        });
     });
 })
 
@@ -98,32 +105,54 @@ function parseCatgory(category){
     $("div[name=catalog] div.table").append(table);  
 }
 
-function getRandomItem(cat){
+function getRandomItem(category){
+    if(typeof category == "undefined"){
+        //We did not get an argument.  Turn it into an emapy array.
+        category = [];
+    }
     
-    if(!cat || cat.length<1){
-        cat = [];
-        //If we don't have any cats, we can choose an item from any cat.
+    if(typeof category == "string"){
+        //We just have one category but we were expecting an array.  Fix it.
+        category = [category];
+    }
+    
+    
+    if(category.length<1){
+        //No categories were passed.  The user wants all of them!
         for(let key in dnd_data){
-            cat.push(key);
+            category.push(key);
         }
     }
     
-    let random_cat = cat[getRandomNumber(cat.length-1)];
-    let rows_in_cat = dnd_data[random_cat].table.rows.length;
-    let randome_item_index = getRandomNumber(rows_in_cat-1);
+    //Get a random number between 0 and the number of categories (minus one b/c the fist element is at index zero)
+    let random_category_index = getRandomNumber(category.length-1)
     
-    let random_item = dnd_data[random_cat].table.rows[randome_item_index];
+    //Select a random category table from the list
+    let random_category = category[random_category_index].table;
     
-    console.log(random_cat);
-    console.log(random_item);
+    //select a random number between 0 and the number of items in the category
+    let randome_item_index = getRandomNumber(random_category.rows.length-1);
+    
+    //select a random item
+    let random_item = random_category.rows[randome_item_index];
+    
+    //This is just for debugging.  It is helpful to see what the program is doing but this should be removed before "going live"
+    console.log(`We selected ${JSON.stringify(random_item)} at random from ${random_category}`);
     
     //build object for retury (merge column headers and values into a single object)
-    let o={}
-    for(let i=0; i<dnd_data[random_cat].table.columns.length; i++){
-        o[dnd_data[random_cat].table.columns[i]] = random_item[i];  
+    let result={}
+    for(let i=0; i<random_category.columns.length; i++){
+        o[random_category.columns[i]] = random_item[i];  
     }
     
-    return o;
+    return result;
+}
+
+//TODO: What do you want to do?
+function doSomething(){
+    alert('I did something');
+    
+    //Maybe call getRandomItem()?  Maybe something else?
 }
 
 function getRandomNumber(max) {
