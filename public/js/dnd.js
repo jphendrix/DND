@@ -38,7 +38,11 @@ $(function(){
             
             //Show the user all of the items for the selected category
             parseCatgory(category);
-        })
+        });
+        
+        $("button[name=add]").on("click",function(){
+            addRandomSelected();
+        });
         
         //Create an event listner for a button.  When the user clicks the
         //button, your function will execute.
@@ -150,6 +154,16 @@ function getRandomItem(category){
     return result;
 }
 
+function addRandomSelected(){
+    //Get the category selected by the user
+    let category = $("select[name=category]").val();
+    let item = getRandomItem([category]);
+    
+    $("div.chest ul").append($("<li>",{
+        text:`${JSON.stringify(item).replace(/{/g,'').replace(/}/g,'').replace(/"/g,'')}`
+    }));
+    
+}
 //TODO: What do you want to do?
 function doSomething(){
     alert('I did something');
