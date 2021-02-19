@@ -47,3 +47,8 @@ td {
     font-size: small;
     border: solid 1px lightgray;
 }
+
+.table, .chest{
+    display: inline-block;
+    vertical-align: top;
+}
