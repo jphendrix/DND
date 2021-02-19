@@ -26,3 +26,24 @@ a {
   color: black;
   text-decoration: none;
 }
+
+th {
+    border: solid 1px gray;
+    background-color: beige;
+    font-size: small;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+td,th{
+    border-bottom:1px solid gray;
+}
+
+tr:hover, .selected {
+    background-color:silver;
+}
+
+td {
+    font-size: small;
+    border: solid 1px lightgray;
+}
